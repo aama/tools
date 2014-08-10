@@ -1,1 +1,1 @@
-# Aama tools
+# shell scripts, etc
