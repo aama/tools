@@ -14,7 +14,7 @@
   <xsl:strip-space elements="*"/>
 
   <xsl:param name="lang" required="yes"/>
-<!--  <xsl:param name="abbr" required="yes"/>-->
+  <xsl:param name="abbr" required="yes"/>
 <!--  <xsl:param name="langVar" required="no"/>-->
 
   <xsl:variable name="aamaURI">
@@ -50,12 +50,20 @@
 <!-- } -->
 <!-- </xsl:text> -->
 
+    <xsl:text>{
+</xsl:text>
     <xsl:text>:lang :</xsl:text>
     <xsl:value-of select="$lang"/>
     <xsl:text>
 </xsl:text>
+    <xsl:text>:sgpref "</xsl:text>
+    <xsl:value-of select="$abbr"/>
+    <xsl:text>"
+</xsl:text>
 
-    <xsl:text>:schemata [</xsl:text>
+    <xsl:text>:schemata {</xsl:text>
+    <xsl:text>
+</xsl:text>
     <xsl:for-each-group select="//prop"
 			group-by="@type">
       <xsl:sort select="@type"/>
@@ -68,30 +76,12 @@
 			or @type = 'note'
 			or @type = 'pdgmLexLabel'
 			or @type = 'pid'
-			or @type = 'token'
-			or @type = 'token-1'
-			or @type = 'token-2'
-			or @type = 'token2'
-			or @type = 'token-affix'
-			or @type = 'token-example'
-			or @type = 'token-lex'
-			or @type = 'token-pref'
-			or @type = 'token-note'
-			or @type = 'token-stem'
-			or @type = 'token-suff'
-			or @type = 'token-suffix'
-			or @type = 'token-verbGloss'
-			or @type = 'token-x'
-			or
-			fn:starts-with(@type, 'token-aux')
-			or fn:starts-with(@type, 'token-enclit')
-			or fn:starts-with(@type, 'token-gloss')
-			or fn:starts-with(@type, 'token-main')
+			or fn:starts-with(@type, 'token')
 			"/>
 	<xsl:otherwise>
 	  <xsl:text>:</xsl:text>
 	  <xsl:value-of select="@type"/>
-	  <xsl:text> {</xsl:text>
+	  <xsl:text> [</xsl:text>
 	  <xsl:for-each-group select="current-group()"
 			      group-by="@val">
 	    <xsl:sort select="@val"/>
@@ -101,15 +91,17 @@
 	      <xsl:text>, </xsl:text>
 	    </xsl:if>
 	  </xsl:for-each-group>
-	  <xsl:text>}
+	  <xsl:text>]
 	  </xsl:text>
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:for-each-group>
-    <xsl:text>]
+    <xsl:text>}
 </xsl:text>
 
     <xsl:apply-templates/>
+    <xsl:text>}
+</xsl:text>
 
   </xsl:template>
 
@@ -207,7 +199,9 @@
 	  <xsl:choose>
 	    <xsl:when test="@type = 'gloss'
 			    or
-			    @type = 'lemma'">
+			    @type = 'lemma'
+				 or fn:starts-with(@type, 'token')
+				">
 	      <xsl:text>"</xsl:text>
 	    </xsl:when>
 	    <xsl:otherwise>
@@ -216,7 +210,8 @@
 	  </xsl:choose>
 	  <xsl:value-of select="@val"/>
 	  <xsl:if test="@type = 'gloss'
-			or @type = 'lemma'">
+			or @type = 'lemma'
+			or fn:starts-with(@type, 'token')			">
 	    <xsl:text>"</xsl:text>
 	  </xsl:if>
 	  <xsl:if test="count(following-sibling::prop) > 0">
@@ -306,15 +301,6 @@
       <xsl:text>[</xsl:text>
       <xsl:for-each select="prop">
 	<xsl:choose>
-	  <xsl:when test="@type =  'token-auxFunction'">
-	    <xsl:text>"</xsl:text>
-	  </xsl:when>
-	  <xsl:when test="fn:starts-with(@type, 'token-struct')
-			  or fn:starts-with(@type, 'token-aux')
-			  or fn:starts-with(@type, 'token-sel')
-			  ">
-	    <xsl:text>:</xsl:text>
-	  </xsl:when>
 	  <xsl:when test="fn:starts-with(@type, 'token')
 			  or fn:starts-with(@type, 'gloss')
 			  ">
@@ -326,16 +312,8 @@
 	</xsl:choose>
 	<xsl:value-of select="@val"/>
 	<xsl:choose>
-	  <xsl:when test="@type = 'token-auxFunction'">
-	    <xsl:text>"</xsl:text>
-	  </xsl:when>
-	  <xsl:when test="fn:starts-with(@type, 'token-struct')
-			  or fn:starts-with(@type, 'token-aux')
-			  or fn:starts-with(@type, 'token-sel')
-			  "/>
 	  <xsl:when test="fn:starts-with(@type, 'token')
-			  or
-			  fn:starts-with(@type, 'gloss')">
+			  or fn:starts-with(@type, 'gloss')">
 	    <xsl:text>"</xsl:text>
 	  </xsl:when>
 	  <xsl:otherwise/>
@@ -484,16 +462,6 @@
       <xsl:text>[</xsl:text>
       <xsl:for-each select="prop">
 	<xsl:choose>
-	  <xsl:when test="@type = 'token-auxFunction'">
-	    <xsl:text>"</xsl:text>
-	  </xsl:when>
-	  <xsl:when test="fn:starts-with(@type, 'token-struct')
-			  or fn:starts-with(@type, 'token-aux')
-			  or fn:starts-with(@type, 'token-prefGroup')
-			  or fn:starts-with(@type, 'token-selGroup')
-			  ">
-	    <xsl:text>:</xsl:text>
-	  </xsl:when>
 	  <xsl:when test="fn:starts-with(@type, 'gloss')
 			  or fn:starts-with(@type, 'note')
 			  or fn:starts-with(@type, 'token')"
@@ -506,14 +474,6 @@
 	</xsl:choose>
 	<xsl:value-of select="@val"/>
 	<xsl:choose>
-	  <xsl:when test="@type = 'token-auxFunction'">
-	    <xsl:text>"</xsl:text>
-	  </xsl:when>
-	  <xsl:when test="fn:starts-with(@type, 'token-struct')
-			  or fn:starts-with(@type, 'token-aux')
-			  or fn:starts-with(@type, 'token-prefGroup')
-			  or fn:starts-with(@type, 'token-selGroup')
-			  "/>
 	  <xsl:when test="fn:starts-with(@type, 'gloss')
 			  or fn:starts-with(@type, 'note')
 			  or fn:starts-with(@type, 'token')
@@ -615,332 +575,7 @@
         <xsl:value-of select="@val"/>
         <xsl:text>"</xsl:text>
       </xsl:when>
-      <xsl:when test="@type = 'token-gloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-lex'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-main'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-aux'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-auxGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'tokenMain'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'tokenAux'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-conjV'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-structure'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-encliticized'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-BeachyRef'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-remark'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-exQ'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-glossExQ'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-exA'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-glossExA'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-dervForm'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-selectorConst'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-selMood'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-selBE'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-selTense'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-persObj'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-dervGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-baseForm'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-baseShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-baseGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-coopShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-coopGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-passShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-passGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-caushape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-causShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-causGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-reflShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-reflGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-recipShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-recipGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-suppletive'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-environment'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-singularForm'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-pluralForm'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-suffShape'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-suffix'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-pref'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-affix'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-stem'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-suff'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-numGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-template'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-auxFunction'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-verbGloss'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-prefix'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-preverb'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-example'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token1'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token2'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'token-note'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
       <xsl:when test="@type = 'note'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'structure'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'morphoSynEnv'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'structMain'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'structAux'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'stemFinalC'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'causativeAllomorph'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'auxAdjunct'">
-        <xsl:text>"</xsl:text>
-        <xsl:value-of select="@val"/>
-        <xsl:text>"</xsl:text>
-      </xsl:when>
-      <xsl:when test="@type = 'example'">
         <xsl:text>"</xsl:text>
         <xsl:value-of select="@val"/>
         <xsl:text>"</xsl:text>
