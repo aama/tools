@@ -1,5 +1,6 @@
 (ns edn2ttl.core
-  (require [clojure.edn :as edn])
+  (require [clojure.edn :as edn]
+           [stencil.core :as tmpl])
   (:gen-class :main true))
 
 (defn uuid
@@ -13,18 +14,17 @@
   (let [lang (name (pdgm-map  :lang))
         Lang (clojure.string/capitalize lang)
         sgpref (pdgm-map :sgpref)]
-      (doall (map println [
-                           (format "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." )
-                           (format "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> ." )
-                           (format "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> ." )
-                           (format "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> ." )
-                           (format "@prefix %s:   <http://id.oi.uchicago.edu/aama/2013/%s/> ." sgpref lang)
-                           ])
-             )
-
-      (doall (map println [(format "\n#SCHEMATA:\n")
-                           (format "aama:%s a aamas:Language ." Lang)
-                           (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)]))))
+    (tmpl/render-string (str "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+                             "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> .\n"
+                             "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> .\n"
+                             "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> .\n"
+                             "@prefix {{s}}   <http://id.oi.uchicago.edu/aama/2013/{{lang}}/> .\n")
+                        {:s sgpref :lang lang})
+    (tmpl/render-string (str "\newline"
+                             "#SCHEMATA:\n"
+                             "aama:{{lang}} a aamas:Language .\n"
+                             "aama:{{lang}} rdfs:label \"{{lang}}\" .\n")
+                        {:lang Lang})))
 
 (defn do-props
   [schemata]
