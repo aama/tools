@@ -7,36 +7,9 @@
   []
   (str (java.util.UUID/randomUUID)))
 
-(defn -main
-  "Calls the functions that transform the keyed maps of a pdgms.edn to a pdgms.ttl"
-  [& file]
-
-  (let [inputfile (first file)
-        pdgmstring (slurp inputfile)
-        pdgmmap (edn/read-string pdgmstring)
-        lang (name (pdgmmap  :lang))
-        Lang (clojure.string/capitalize lang)
-        sgpref (pdgmmap :sgpref)
-        ]
-    (do
-      (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
-      (doall (map println [
-                           (format "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." )
-                           (format "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> ." )
-                           (format "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> ." )
-                           (format "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> ." )
-                           (format "@prefix %s:   <http://id.oi.uchicago.edu/aama/2013/%s/> ." sgpref lang)
-                           ])
-             )
-
-      (doall (map println [
-                            (format "\n#SCHEMATA:\n")
-                            (format "aama:%s a aamas:Language ." Lang)
-                            (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)
-                            ])
-        )
-
-  (doseq [[property valuelist] (pdgmmap :schemata)]
+(defn do-props
+  [schemata]
+  (doseq [[property valuelist] schemata]
     (def prop (name property))
     ;; NB clojure.string/capitalize gives  wrong output with
     ;; terms like conjClass: =>Conjclass rather than ConjClass
@@ -66,15 +39,17 @@
       (doall y)
       )
     )
+
+(defn do-morphemes
+  [morphemes]
   (println	(format "\n#MORPHEMES:\n"))
-  (doseq [[morpheme featurelist] (pdgmmap :morphemes)]
+  (doseq [[morpheme featurelist] morphemes]
     (def morph (name morpheme))
     (def x ( map println [
                           (format "aama:%s-%s a aamas:Muterm ;" Lang morph)
                           (format "\taamas:lang aama:%s ;" Lang)
                           (format "\trdfs:label \"%s\" ;" morph)
-                          ])
-      )
+                          ]))
     (doall  x)
     (doseq [[feature value] featurelist]
       (def mprop (name feature))
@@ -89,12 +64,44 @@
                                   :else
                                   (format "\t%s:%s %s:%s ;" sgpref mprop sgpref mval)
                                   )
+                            ]))
+      (doall y))
+    (println "\t.")
+    ))
+
+(defn -main
+  "Calls the functions that transform the keyed maps of a pdgms.edn to a pdgms.ttl"
+  [& file]
+
+  (let [inputfile (first file)
+        pdgmstring (slurp inputfile)
+        pdgmmap (edn/read-string pdgmstring)
+        lang (name (pdgmmap  :lang))
+        Lang (clojure.string/capitalize lang)
+        sgpref (pdgmmap :sgpref)
+        ]
+    (do
+      (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
+      (doall (map println [
+                           (format "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." )
+                           (format "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> ." )
+                           (format "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> ." )
+                           (format "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> ." )
+                           (format "@prefix %s:   <http://id.oi.uchicago.edu/aama/2013/%s/> ." sgpref lang)
+                           ])
+             )
+
+      (doall (map println [
+                            (format "\n#SCHEMATA:\n")
+                            (format "aama:%s a aamas:Language ." Lang)
+                            (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)
                             ])
         )
-      (doall y)
-      )
-    (println "\t.")
-    )
+
+      (do-props (pdgmmap :schemata))
+
+      (do-morphemes (pdgmmap :morphemes))
+
   (println	(format "\n#LEXEMES:\n"))
   (doseq [[lexeme featurelist] (pdgmmap :lexemes)]
     (def lex (name lexeme))
