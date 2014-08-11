@@ -1,16 +1,19 @@
 #!/bin/bash
-# usage:  git-pull.sh 
-# to pull in changes in origin repo not yet in dev machine
+# usage:  git-commit-push.sh 
+
 # 03/21/14: 
 
 #. bin/constants.sh
 
-#for d in `ls`
-for d in hebrew shinassha iraqw sidaama kambaata somali-standard kemant syriac khamtanga tsamakko koorete wolaytta maale yaaku oromo yemsa rendille hadiyya saho
+for d in `ls`
+#for d in afar beja-beniamer dahalo akkadian-ob beja-bishari dhaasanac alaaba beja-hadendowa dizi arabic bilin egyptian-middle arbore boni-jara elmolo awngi boni-kijee-bala gawwada bayso boni-kilii gedeo  burji geez beja-arteiga burunge beja-atmaan coptic-sahidic 
 do
 	 echo "$d ********************************************"
 	 cd $d
 	 git pull
 	 cd ../
 done
+
+
+
 
