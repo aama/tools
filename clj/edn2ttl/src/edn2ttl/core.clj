@@ -8,9 +8,11 @@
   (str (java.util.UUID/randomUUID)))
 
 (defn do-prelude
-  [inputfile sgprf lang]
-    (do
-      (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
+  [inputfile pdgm-map]
+  (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
+  (let [lang (name (pdgm-map  :lang))
+        Lang (clojure.string/capitalize lang)
+        sgpref (pdgm-map :sgpref)]
       (doall (map println [
                            (format "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." )
                            (format "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> ." )
@@ -20,13 +22,9 @@
                            ])
              )
 
-      (doall (map println [
-                            (format "\n#SCHEMATA:\n")
-                            (format "aama:%s a aamas:Language ." Lang)
-                            (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)
-                            ])
-        )))
-
+      (doall (map println [(format "\n#SCHEMATA:\n")
+                           (format "aama:%s a aamas:Language ." Lang)
+                           (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)]))))
 
 (defn do-props
   [schemata]
