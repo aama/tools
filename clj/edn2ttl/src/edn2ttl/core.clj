@@ -16,7 +16,8 @@
         pdgmmap (edn/read-string pdgmstring)
         lang (name (pdgmmap  :lang))
         Lang (clojure.string/capitalize lang)
-        sgpref (pdgmmap :sgpref)]
+        sgpref (pdgmmap :sgpref)
+        ]
     (do
       (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
       (doall (map println [
@@ -35,11 +36,7 @@
                             ])
         )
 
-  (def schemata (pdgmmap :schemata))
-  (def morphemes (pdgmmap :morphemes))
-  (def lexemes (pdgmmap :lexemes))
-  (def lexterms (pdgmmap :lxterms))
-  (doseq [[property valuelist] schemata]
+  (doseq [[property valuelist] (pdgmmap :schemata)]
     (def prop (name property))
     ;; NB clojure.string/capitalize gives  wrong output with
     ;; terms like conjClass: =>Conjclass rather than ConjClass
@@ -70,7 +67,7 @@
       )
     )
   (println	(format "\n#MORPHEMES:\n"))
-  (doseq [[morpheme featurelist] morphemes]
+  (doseq [[morpheme featurelist] (pdgmmap :morphemes)]
     (def morph (name morpheme))
     (def x ( map println [
                           (format "aama:%s-%s a aamas:Muterm ;" Lang morph)
@@ -99,7 +96,7 @@
     (println "\t.")
     )
   (println	(format "\n#LEXEMES:\n"))
-  (doseq [[lexeme featurelist] lexemes]
+  (doseq [[lexeme featurelist] (pdgmmap :lexemes)]
     (def lex (name lexeme))
     (def x ( map println [
                           (format "aama:%s-%s a aamas:Lexeme ;" Lang lex)
@@ -129,7 +126,8 @@
       )
     (println "\t.")
     )
-  (doseq [ termcluster lexterms]
+
+  (doseq [ termcluster (pdgmmap :lxterms)]
     (def label (:label termcluster))
     (def x (map println [
                          (format "\n#TERMCLUSTER: %s\n"  label)])
