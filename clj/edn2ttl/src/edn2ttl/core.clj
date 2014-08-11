@@ -7,6 +7,27 @@
   []
   (str (java.util.UUID/randomUUID)))
 
+(defn do-prelude
+  [inputfile sgprf lang]
+    (do
+      (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
+      (doall (map println [
+                           (format "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." )
+                           (format "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> ." )
+                           (format "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> ." )
+                           (format "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> ." )
+                           (format "@prefix %s:   <http://id.oi.uchicago.edu/aama/2013/%s/> ." sgpref lang)
+                           ])
+             )
+
+      (doall (map println [
+                            (format "\n#SCHEMATA:\n")
+                            (format "aama:%s a aamas:Language ." Lang)
+                            (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)
+                            ])
+        )))
+
+
 (defn do-props
   [schemata]
   (doseq [[property valuelist] schemata]
@@ -69,54 +90,21 @@
     (println "\t.")
     ))
 
-(defn -main
-  "Calls the functions that transform the keyed maps of a pdgms.edn to a pdgms.ttl"
-  [& file]
-
-  (let [inputfile (first file)
-        pdgmstring (slurp inputfile)
-        pdgmmap (edn/read-string pdgmstring)
-        lang (name (pdgmmap  :lang))
-        Lang (clojure.string/capitalize lang)
-        sgpref (pdgmmap :sgpref)
-        ]
-    (do
-      (println "\n#TTL FROM INPUT FILE:\n#" inputfile)
-      (doall (map println [
-                           (format "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ." )
-                           (format "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> ." )
-                           (format "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> ." )
-                           (format "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> ." )
-                           (format "@prefix %s:   <http://id.oi.uchicago.edu/aama/2013/%s/> ." sgpref lang)
-                           ])
-             )
-
-      (doall (map println [
-                            (format "\n#SCHEMATA:\n")
-                            (format "aama:%s a aamas:Language ." Lang)
-                            (format  "aama:%s rdfs:label \"%s\" ." Lang Lang)
-                            ])
-        )
-
-      (do-props (pdgmmap :schemata))
-
-      (do-morphemes (pdgmmap :morphemes))
-
+(defn do-lexemes
+  [lexemes]
   (println	(format "\n#LEXEMES:\n"))
-  (doseq [[lexeme featurelist] (pdgmmap :lexemes)]
+  (doseq [[lexeme featurelist] lexemes]
     (def lex (name lexeme))
     (def x ( map println [
                           (format "aama:%s-%s a aamas:Lexeme ;" Lang lex)
                           (format "\taamas:lang aama:%s ;" Lang)
                           (format "\trdfs:label \"%s\" ;" lex)
-                          ])
-      )
+                          ]))
     (doall  x)
     (doseq [[feature value] featurelist]
       (def lprop (name feature))
       (def lval (name value))
-      (def y ( map println [
-                            (cond (= lprop "gloss")
+      (def y ( map println [(cond (= lprop "gloss")
                                   (format "\taamas:%s \"%s\" ;" lprop lval)
                                   (= lprop "lemma")
                                   (format "\taamas:%s \"%s\" ;" lprop lval)
@@ -125,16 +113,16 @@
                                   (re-find #"^note" lprop)
                                   (format "\t%s:%s \"%s\" ;" sgpref lprop lval)
                                   :else
-                                  (format "\t%s:%s %s:%s ;" sgpref lprop sgpref lval)
-                                  )
-                            ])
-        )
+                                  (format "\t%s:%s %s:%s ;" sgpref lprop sgpref lval))
+                            ]))
       (doall y)
       )
     (println "\t.")
-    )
+    ))
 
-  (doseq [ termcluster (pdgmmap :lxterms)]
+(defn do-lexterms
+  [lexterms]
+  (doseq [termcluster lexterms]
     (def label (:label termcluster))
     (def x (map println [
                          (format "\n#TERMCLUSTER: %s\n"  label)])
@@ -200,4 +188,27 @@
       (doall z)
       )
     )
-  )
+
+  (defn -main
+    "Calls the functions that transform the keyed maps of a pdgms.edn to a pdgms.ttl"
+    [& file]
+
+    (let [inputfile (first file)
+          pdgmstring (slurp inputfile)
+          pdgmmap (edn/read-string pdgmstring)
+          lang (name (pdgmmap  :lang))
+          Lang (clojure.string/capitalize lang)
+          sgpref (pdgmmap :sgpref)
+          ]
+
+      (do-prelude inputfile sgprf lang)
+
+      (do-props (pdgmmap :schemata))
+
+      (do-morphemes (pdgmmap :morphemes))
+
+      (do-lexemes (pdgmmap :lexemes))
+
+      (do-lexterms (pdgmmap :lxterms))
+
+      )
