@@ -20,7 +20,7 @@
                              "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> .\n"
                              "@prefix {{s}}   <http://id.oi.uchicago.edu/aama/2013/{{lang}}/> .\n")
                         {:s sgpref :lang lang})
-    (tmpl/render-string (str "\newline"
+    (tmpl/render-string (str (newline)
                              "#SCHEMATA:\n"
                              "aama:{{lang}} a aamas:Language .\n"
                              "aama:{{lang}} rdfs:label \"{{lang}}\" .\n")
@@ -29,23 +29,27 @@
 (defn do-props
   [schemata]
   (doseq [[property valuelist] schemata]
-    (def prop (name property))
-    ;; NB clojure.string/capitalize gives  wrong output with
-    ;; terms like conjClass: =>Conjclass rather than ConjClass
-    (def Prop (clojure.string/capitalize prop))
-    (def x ( map println [
-                          (format "\n#SCHEMATA: %s" prop  )
-                          (format "%s:%s aamas:lang aama:%s ." sgpref prop Lang)
-                          (format "%s:%s aamas:lang aama:%s ." sgpref Prop Lang)
-                          (format "%s:%s rdfs:domain aamas:Term ." sgpref prop)
-                          (format "%s:%s rdfs:label \"%s exponents\" ." sgpref Prop prop)
-                          (format "%s:%s rdfs:label \"%s\" ." sgpref prop prop)
-                          (format "%s:%s rdfs:range %s:%s ." sgpref prop sgpref Prop)
-                          (format "%s:%s rdfs:subClassOf %s:MuExponent ." sgpref Prop sgpref)
-                          (format "%s:%s rdfs:subPropertyOf %s:muProperty ." sgpref prop sgpref )
-                          ])
-      )
-    (doall  x)
+    (let [prop (name property)
+          Prop (clojure.string/capitalize prop)]
+          ;; NB clojure.string/capitalize gives  wrong output with
+          ;; terms like conjClass: =>Conjclass rather than ConjClass
+
+    (tmpl/render-string (str
+                         (newline)
+                         "#SCHEMATA: {{prop}}\n"
+                         "{{pfx}}:{{prop}} aamas:lang aama:{{Lang}} .\n"
+                         "{{pfx}}:{{Prop}} aamas:lang aama:{{Lang}} .\n"
+                         "{{pfx}}:{{prop}} rdfs:domain aamas:Term .\n"
+                         "{{pfx}}:{{Prop}} rdfs:label \"{{prop}} exponents\" .\n"
+                         "{{pfx}}:{{prop}} rdfs:label \"{{prop}}\" .\n"
+                         "{{pfx}}:{{prop}} rdfs:range {{prop}}:{{Prop}} .\n"
+                         "{{pfx}}:{{Prop}} rdfs:subClassOf {{pfx}}:MuExponent .\n"
+                         "{{pfx}}:{{prop}} rdfs:subPropertyOf {{pfx}}:muProperty .\n")
+                        {:pfx sgpref
+                         :Lang Lang
+                         :prop prop
+                         :Prop Prop})))
+
     (def vallist valuelist)
     (doseq [value vallist]
       (def valname (name value))
