@@ -195,20 +195,20 @@
 
     (let [inputfile (first file)
           pdgmstring (slurp inputfile)
-          pdgmmap (edn/read-string pdgmstring)
-          lang (name (pdgmmap  :lang))
-          Lang (clojure.string/capitalize lang)
-          sgpref (pdgmmap :sgpref)
+          pdgm-map (edn/read-string pdgmstring)
+          ;; lang (name (pdgm-map  :lang))
+          ;; Lang (clojure.string/capitalize lang)
+          ;; sgpref (pdgm-map :sgpref)
           ]
 
-      (do-prelude inputfile sgprf lang)
+      (do-prelude inputfile pdgm-map)
 
-      (do-props (pdgmmap :schemata))
+      (do-props (pdgm-map :schemata))
 
-      (do-morphemes (pdgmmap :morphemes))
+      (do-morphemes (pdgm-map :morphemes))
 
-      (do-lexemes (pdgmmap :lexemes))
+      (do-lexemes (pdgm-map :lexemes))
 
-      (do-lexterms (pdgmmap :lxterms))
+      (do-lexterms (pdgm-map :lxterms))
 
       )
