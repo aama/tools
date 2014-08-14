@@ -1,0 +1,518 @@
+
+#TTL FROM INPUT FILE:
+# beja-arteiga-pdgms-trial.edn
+@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> .
+@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> .
+@prefix bar:   <http://id.oi.uchicago.edu/aama/2013/beja-arteiga/> .
+
+#SCHEMATA:
+
+aama:Beja-arteiga a aamas:Language .
+aama:Beja-arteiga rdfs:label "Beja-arteiga" .
+
+#SCHEMATA: conjClass
+bar:conjClass aamas:lang aama:Beja-arteiga .
+bar:Conjclass aamas:lang aama:Beja-arteiga .
+bar:conjClass rdfs:domain aamas:Term .
+bar:Conjclass rdfs:label "conjClass exponents" .
+bar:conjClass rdfs:label "conjClass" .
+bar:conjClass rdfs:range bar:Conjclass .
+bar:Conjclass rdfs:subClassOf bar:MuExponent .
+bar:conjClass rdfs:subPropertyOf bar:muProperty .
+bar:Prefix aamas:lang aama:Beja-arteiga .
+bar:Prefix rdf:type bar:Conjclass .
+bar:Prefix rdfs:label "Prefix".
+bar:Suffix aamas:lang aama:Beja-arteiga .
+bar:Suffix rdf:type bar:Conjclass .
+bar:Suffix rdfs:label "Suffix".
+
+#SCHEMATA: gender
+bar:gender aamas:lang aama:Beja-arteiga .
+bar:Gender aamas:lang aama:Beja-arteiga .
+bar:gender rdfs:domain aamas:Term .
+bar:Gender rdfs:label "gender exponents" .
+bar:gender rdfs:label "gender" .
+bar:gender rdfs:range bar:Gender .
+bar:Gender rdfs:subClassOf bar:MuExponent .
+bar:gender rdfs:subPropertyOf bar:muProperty .
+bar:Common aamas:lang aama:Beja-arteiga .
+bar:Common rdf:type bar:Gender .
+bar:Common rdfs:label "Common".
+bar:Fem aamas:lang aama:Beja-arteiga .
+bar:Fem rdf:type bar:Gender .
+bar:Fem rdfs:label "Fem".
+bar:Masc aamas:lang aama:Beja-arteiga .
+bar:Masc rdf:type bar:Gender .
+bar:Masc rdfs:label "Masc".
+
+#MORPHEMES:
+
+aama:Beja-arteiga-PRO a aamas:Morpheme ;
+	aamas:lang aama:Beja-arteiga ;
+	rdfs:label "PRO" ;
+	rdfs:comment "Pronoun" ;
+	bar:pos bar:Pronoun ;
+	.
+aama:Beja-arteiga-SUBJMARK a aamas:Morpheme ;
+	aamas:lang aama:Beja-arteiga ;
+	rdfs:label "SUBJMARK" ;
+	rdfs:comment "Subject Marker" ;
+	.
+
+#LEXEMES:
+
+aama:Beja-arteiga-dbl a aamas:Lexeme ;
+	aamas:lang aama:Beja-arteiga ;
+	rdfs:label "dbl" ;
+	bar:conjClass bar:Prefix ;
+	aamas:gloss "collect, gather" ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCC ;
+	.
+aama:Beja-arteiga-dgy a aamas:Lexeme ;
+	aamas:lang aama:Beja-arteiga ;
+	rdfs:label "dgy" ;
+	bar:conjClass bar:Prefix ;
+	aamas:gloss "hear" ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	.
+
+#TERMCLUSTER: beja_H-VPrefAffCCYAor
+
+aama:IDc8b5b029-b2ff-472f-82b8-4fbccc758c08 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "?i-diig-`na" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	.
+aama:ID6d64bbf2-98f2-48d3-bd20-674cacacff9a a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "ti-diig-`na" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	.
+aama:ID36a3aaeb-f947-4eaf-be2c-ba396842c65f a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "ti-diig-`i" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	.
+aama:ID7fd6576a-20f3-446a-8261-1518e40b1a31 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "ni-d�ig" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	.
+aama:IDfbf07688-b8b2-4540-b926-3f71b8b18608 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "?i-d�ig" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	.
+aama:ID5ddafaf8-aa4c-4d8d-8d75-d7af0818b869 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "ti-d�ig" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	.
+aama:ID3c2a48bc-b47a-468f-8fb4-6af9c7780b8c a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "ti-diig-`a" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	.
+aama:ID9af1c8b2-b2a5-4d88-9bd6-400efa039b87 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Aorist ;
+	bar:token "?a-d�ig" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Common ;
+	.
+
+#TERMCLUSTER: beja_H-VPrefAffCCYPres
+
+aama:IDb4705232-eaff-434c-bc4c-58ae3b775cf3 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "dang�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	.
+aama:IDfbe744d9-518f-4397-9368-343218205390 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "ni-d�eg" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	.
+aama:ID8292f33f-41ea-471e-b0be-d9cf344447ce a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "ti-deeg-`na" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	.
+aama:ID4149b013-edb9-4137-96f4-5b22762648ec a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "dangii-`a" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	.
+aama:ID63e3b2bf-626b-471b-9ae2-2c501994f249 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "?i-deeg-`na" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	.
+aama:ID31dbf61e-38e5-48e8-812f-562dae5132d2 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "?a-dang�" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Common ;
+	.
+aama:ID65690a41-c790-4856-8223-7d2faea4c5b1 a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "dang�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	.
+aama:ID176b4c31-96e3-447c-89a5-31fb9745936d a aamas:Term ;
+	aamas:lang aama:Beja-arteiga ;
+	bar:conjClass bar:Prefix ;
+	aamas:lexeme aama:Beja-arteiga-dgy ;
+	bar:polarity bar:Affirmative ;
+	bar:pos bar:Verb ;
+	bar:rootClass bar:CCY ;
+	bar:tam bar:Present ;
+	bar:token "dangii-`" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	.
+
+#MUTERMCLUSTER: beja_H-PInd
+
+aama:ID71fe7a3b-2aa7-4166-846d-12f72201f361 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "hin�n" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	bar:case bar:Object ;
+	.
+aama:ID7d5c2251-7a19-4e98-b425-a5afb58838c3 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-o�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	bar:case bar:Object ;
+	.
+aama:IDfb1c716f-1bb8-4ad8-a967-2f2af91aa2b9 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-o�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	bar:case bar:Object ;
+	.
+aama:ID08fa9446-f78f-4ca1-8d42-f50965c126e2 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-u�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	bar:case bar:Nominative ;
+	.
+aama:IDb5f533a7-cc1f-47ee-a72f-186dbdd88c3b a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-u�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	bar:case bar:Nominative ;
+	.
+aama:IDe23943e6-b21f-41b7-ba3c-4f0b8d39470d a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-o�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	bar:case bar:Object ;
+	.
+aama:ID924c085b-940c-43cb-8a45-c6fce0bdf111 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-a�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Masc ;
+	bar:case bar:Nominative ;
+	.
+aama:ID167b0ee0-0126-4e8a-b85e-f2343d6d0357 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-a�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Fem ;
+	bar:case bar:Nominative ;
+	.
+aama:ID9eca775d-a934-427c-85da-1d55fd8ce326 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-e�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Fem ;
+	bar:case bar:Object ;
+	.
+aama:IDfafc17b8-44e5-432d-8e07-b039f39dc96b a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-e�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Masc ;
+	bar:case bar:Object ;
+	.
+aama:IDa21ea774-2182-4c87-94b1-390748ad797d a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-a�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Masc ;
+	bar:case bar:Nominative ;
+	.
+aama:ID9f21c884-4507-44e0-be2e-3392af781079 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-u�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	bar:case bar:Nominative ;
+	.
+aama:IDcf3a070f-8062-4951-a182-7fd7b13763a6 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "hin�n" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Common ;
+	bar:case bar:Nominative ;
+	.
+aama:IDaf5dfa2c-f856-4309-bb4f-415ada811334 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-e�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Masc ;
+	bar:case bar:Object ;
+	.
+aama:IDb3413b94-b29d-4780-9ef3-ae2151772782 a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "?an�" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Common ;
+	bar:case bar:Nominative ;
+	.
+aama:IDf72ed0c2-052e-4be4-a1aa-439a446c5cde a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-e�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Fem ;
+	bar:case bar:Object ;
+	.
+aama:ID6ac4bf8e-3759-499c-afd5-3f1b5f9f847e a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-a�-k" ;
+	bar:person bar:Person2 ;
+	bar:number bar:Plural ;
+	bar:gender bar:Fem ;
+	bar:case bar:Nominative ;
+	.
+aama:ID3d160f6a-2de6-42ed-8712-00d8170db41d a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "bar-o�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Masc ;
+	bar:case bar:Object ;
+	.
+aama:ID5a524d48-6bc8-4532-b2fe-731f6a67712f a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "?ane�-b" ;
+	bar:person bar:Person1 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Common ;
+	bar:case bar:Object ;
+	.
+aama:IDe46c6688-2b04-47f2-8b08-55d93c55869d a aamas:Muterm ;
+	aamas:lang aama:Beja-arteiga ;
+	aamas:morpheme aama:Beja-arteiga-PRO ;
+	bar:pos bar:Pronoun ;
+	bar:proClass bar:Independent ;
+	bar:token "ba[r]-t-u�" ;
+	bar:person bar:Person3 ;
+	bar:number bar:Singular ;
+	bar:gender bar:Fem ;
+	bar:case bar:Nominative ;
+	.
