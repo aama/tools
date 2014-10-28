@@ -2,4 +2,5 @@ pom.xml
 /lib/
 /classes/
 /targets/
+/clj/edn2ttl/target/
 .lein-deps-sum
