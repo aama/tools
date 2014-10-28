@@ -16,17 +16,17 @@
         sgpref (pdgm-map :sgpref)]
       (println
          (tmpl/render-string (str "#TTL FROM INPUT FILE:\n#{{inputfile}}\n\n"
-                             "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
-                             "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> .\n"
-                             "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> .\n"
-                             "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> .\n"
-                             "@prefix {{pfx}}   <http://id.oi.uchicago.edu/aama/2013/{{lang}}/> .\n\n"
-                             "#SCHEMATA:\n"
-                             "aama:{{lang}} a aamas:Language .\n"
-                             "aama:{{lang}} rdfs:label \"{{lang}}\" .\n")
-                        {:pfx sgpref 
-                         :lang lang
-                         :inputfile inputfile})
+          "@prefix rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+          "@prefix rdfs:	 <http://www.w3.org/2000/01/rdf-schema#> .\n"
+          "@prefix aama:	 <http://id.oi.uchicago.edu/aama/2013/> .\n"
+          "@prefix aamas:	 <http://id.oi.uchicago.edu/aama/2013/schema/> .\n"
+          "@prefix {{pfx}}   <http://id.oi.uchicago.edu/aama/2013/{{lang}}/> .\n\n"
+          "#SCHEMATA:\n"
+          "aama:{{lang}} a aamas:Language .\n"
+          "aama:{{lang}} rdfs:label \"{{lang}}\" .\n")
+           {:pfx sgpref 
+            :lang lang
+            :inputfile inputfile})
       )
    )
 )
@@ -161,7 +161,7 @@
           data (next terms)
           common (:common termcluster)]
       (println "\n#TERMCLUSTER: " label)
-    ;; Need to build up string which can then be println-ed with each term of cluster
+   ;; Need to build up string which can then be println-ed with each term of cluster
     (doseq [term data]
       (let [termid (uuid)]
         (println
@@ -176,8 +176,8 @@
         (let [cprop (name feature)
               cval (name value)]
           (println
-             (cond (= cprop "lexeme")
-              (tmpl/render-string (str "\taamas:{{cprop}} aama:{{Lang}}-{{cval}} ;") 
+            (cond (= cprop "lexeme")
+             (tmpl/render-string (str "\taamas:{{cprop}} aama:{{Lang}}-{{cval}} ;") 
                                   {:cprop cprop :Lang Lang :cval cval})
               (re-find #"^token" cprop)
               (tmpl/render-string (str "\t{{pfx}}:{{cprop}} \"{{cval}}\" ;")
@@ -235,7 +235,7 @@
           schema (first terms)
           data (next terms)
           common (:common mutermcluster)]
-    ;; Need to build up string which can then be println-ed with each term of cluster
+   ;; Need to build up string which can then be println-ed with each term of cluster
       (println "\n#MUTERMCLUSTER: "  label)
       (doseq [term data]
 	(let [termid (uuid)]
@@ -251,8 +251,8 @@
 	    (let [cprop (name feature)
                   cval (name value)]
               (println
-		 (cond (= cprop "morpheme")
-                  (tmpl/render-string (str "\taamas:{{cprop}} aama:{{Lang}}-{{cval}} ;") 
+        	 (cond (= cprop "morpheme")
+             (tmpl/render-string (str "\taamas:{{cprop}} aama:{{Lang}}-{{cval}} ;") 
                                   {:cprop cprop :Lang Lang :cval cval})
                   (re-find #"^token" cprop)
                   (tmpl/render-string (str "\t{{pfx}}:{{cprop}} \"{{cval}}\" ;")
@@ -285,7 +285,7 @@
               (re-find #"^gloss" tprop)
               (tmpl/render-string (str "\taamas:{{tprop}} \"{{tval}}\" ;" )
                                   {:pfx sgpref :tprop tprop :tval tval})
-              (= tprop "lexeme")
+              (= tprop "morpheme")
               (tmpl/render-string (str "\taamas:{{tprop}} aama:{{Lang}}-{{tval}} ;")
                                   {:tprop tprop :Lang Lang :tval tval})
               :else
@@ -303,7 +303,7 @@
 ) ;; (defn do-muterms
 
   (defn -main
-    "Calls the functions that transform the keyed maps of a pdgms.edn to a pdgms.ttl"
+   "Calls the functions that transform the keyed maps of a pdgms.edn to a pdgms.ttl"
     [& file]
 
     (let [inputfile (first file)
