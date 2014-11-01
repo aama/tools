@@ -8,10 +8,10 @@
  
 #for d in burji dizi  hebrew kemant saho yaaku
 
-for d in `ls`
+for d in `ls data`
 do
     echo "$d ********************************************"
-    fs=`find $d/ -name *edn`
+    fs=`find data/$d/ -name *edn`
     for f in $fs
 	do
 		echo "generating ${f%\.edn}.ttl  from  $f "
