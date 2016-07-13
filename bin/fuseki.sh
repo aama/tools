@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# rev 10/28/14
+# rev 12/22/12
 # Start the server before queries
 
- cd fuseki/jena-fuseki-1.1.1/
-./fuseki-server  --config=../../tools/aamaconfig.ttl 
+ cd ../aama/fuseki/jena-fuseki-1.1.1/
+./fuseki-server  --config=aamaconfig.ttl 
 #./fuseki-server -v  --update --loc=aama /aamaData

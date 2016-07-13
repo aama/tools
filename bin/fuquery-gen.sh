@@ -1,12 +1,14 @@
 #!/bin/bash
-# usage:  fuquery-gen <qry> 
+# usage:  fuquery <qry> <output>
 
 # example:
 #    <aama> $ bin/fuquery-gen.sh sparql/rq-ru/count-triples.rq
 
-echo "Query:" $1
+#. bin/constants.sh
 
-fuseki/jena-fuseki-1.1.1/s-query --output=tsv --service http://localhost:3030/aama/query --query=$1 
+echo "Query:" $1
+#echo "Response:" $2
+../aama/fuseki/jena-fuseki-1.1.1/s-query --output=tsv --service http://localhost:3030/aama/query --query=$1 
 
 
 #./s-query \
