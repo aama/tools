@@ -18,6 +18,7 @@ git add clj/edn2ttl/project.clj
 git add clj/edn2ttl/src/*
 git add clj/ednsort/project.clj
 git add clj/ednsort/src/*
+git add bin/*.sh
 git commit -am "revised shell scripts added to aama/tools/bin"
 git push origin master
 cd ../../webapp
