@@ -2,8 +2,8 @@
 # usage:  bin/fuqueries.sh
 
 # 08/12/13: Run some standard queries
-
+AAMA_BIN=tools/bin
 	
-bin/fuquery-gen.sh bin/count-triples.rq
-bin/fuquery-gen.sh bin/list-graphs.rq
+${AAMA_BIN}/fuquery-gen.sh ${AAMA_BIN}/count-triples.rq
+${AAMA_BIN}/fuquery-gen.sh ${AAMA_BIN}/list-graphs.rq
 

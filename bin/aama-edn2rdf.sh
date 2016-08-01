@@ -4,7 +4,7 @@
 # 03/21/14: 
 
 #. bin/constants.sh
-
+JARDIR=jar
  
 #for d in burji dizi  hebrew kemant saho yaaku
 
@@ -18,7 +18,7 @@
 		echo "generating ${f%\.edn}.ttl  from  $f "
 		#comment out following line to test ttl file generated 
 		#direct from edn2ttl.core
-		java -jar ../.jar/aama-edn2ttl.jar $f > ${f%\.edn}.ttl
+		java -jar ${JARDIR}/aama-edn2ttl.jar $f > ${f%\.edn}.ttl
 		tofile=${f%\.edn}.rdf
 		fromfile=${f%\.edn}.ttl
 		#lname=`basename ${f%-pdgms.edn`
@@ -26,7 +26,7 @@
 		echo "generating $tofile  from  $fromfile "
 		# Can't get rdf2rdf to directly generate rdf file outside
 		# calling directory (i.e. webapp)
-		java -jar ../.jar/rdf2rdf-1.0.1-2.3.1.jar \
+		java -jar ${JARDIR}/rdf2rdf-1.0.1-2.3.1.jar \
 		               ${f%\.edn}.ttl \
 		               pdgms.rdf
 		mv pdgms.rdf ${tofile}

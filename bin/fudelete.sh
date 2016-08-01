@@ -3,6 +3,7 @@
 # Does not work for any final graph; get message:
 # Error 500: Quad: object cannot be null. Same message in Fuseki interface.
 
+
 usage() {
     printf "Usage:  fudelete [options] ARG\n"
     printf "Delete language-specific graphs.\n"

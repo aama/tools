@@ -8,6 +8,8 @@
 # Meant to be used when one or more lang edn files have been updated.
 # usage (from ~/webapp): bin/aama-datastore-update.sh ../aama-data/data/[LANGDOMAIN]
 
+AAMA_BIN=tools/bin
+	
 #. bin/constants.sh
 ldomain=${1//,/ }
 ldomain=${ldomain//\"/}
@@ -20,16 +22,16 @@ for f in `find $ldomain -name "*.edn"`
 do
     f2=${f%/*-pdgms.edn}
     echo "delete f = ${f2}"
-    bin/fudelete.sh $f2
-    #bin/fuqueries.sh
+    ${AAMA_BIN}/fudelete.sh $f2
+    #${AAMA_BIN}/fuqueries.sh
     echo " "
     #echo "[Enter] to continue or Ctl-C to exit"
     #read
     echo "edn2ttl2rdf f = ${f}"
-    bin/aama-edn2rdf.sh $f
+    ${AAMA_BIN}/aama-edn2rdf.sh $f
     echo "2fuseki f = ${f2}"
-    bin/aama-rdf2fuseki.sh $f2
-    #bin/fuqueries.sh
+    ${AAMA_BIN}/aama-rdf2fuseki.sh $f2
+    #${AAMA_BIN}/fuqueries.sh
     echo "======================="
     #bin/aama-cp2lngrepo.sh $f
 done
