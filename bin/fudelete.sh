@@ -3,7 +3,6 @@
 # Does not work for any final graph; get message:
 # Error 500: Quad: object cannot be null. Same message in Fuseki interface.
 
-
 usage() {
     printf "Usage:  fudelete [options] ARG\n"
     printf "Delete language-specific graphs.\n"
@@ -12,6 +11,9 @@ usage() {
     printf "\t\t-h, --help	Display this message\n\n"
 }
 #. bin/constants.sh
+
+FUSEKI_HOME=fuseki
+DATA_HOME=data
 
 #global:
 newpath=""
@@ -29,9 +31,9 @@ for f in `find $1 -type d`
 do
     echo $f
     l=${f%/}
-    lang=${l#../aama-data/data/}
+    lang=${l#${DATA_HOME}/}
     #uncapitalize_path $lang
     graph="http://oi.uchicago.edu/aama/2013/graph/${lang}"
     echo deleting $graph;
-   ../aama/fuseki/apache-jena-fuseki-2.4.0/bin/s-delete -v http://localhost:3030/aama/data $graph 2>&1 >>logs/fudelete.log
+    ${FUSEKI_HOME}/apache-jena-fuseki-2.4.0/bin/s-delete  http://localhost:3030/aama/data $graph 2>&1 >>logs/fuload.log 
 done
